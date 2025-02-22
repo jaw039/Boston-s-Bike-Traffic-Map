@@ -1,3 +1,6 @@
+// Import D3 as an ESM module
+import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
+
 // Import Mapbox as an ESM module
 import mapboxgl from 'https://cdn.jsdelivr.net/npm/mapbox-gl@2.15.0/+esm';
 
@@ -25,7 +28,7 @@ const bikeLayerStyle = {
 };
 
 // Load the map data
-map.on("load", () => {
+map.on("load", async () => {
     // Add Boston bike lanes source and layer
     map.addSource("boston_route", {
         type: "geojson",
@@ -35,7 +38,7 @@ map.on("load", () => {
     // Add Cambridge bike lanes source and layer
     map.addSource("cambridge_route", {
         type: "geojson",
-        data: "https://data.cambridgema.gov/api/geospatial/rkht-haa3?method=export&format=GeoJSON"
+        data: "https://raw.githubusercontent.com/cambridgegis/cambridgegis_data/main/Recreation/Bike_Facilities/RECREATION_BikeFacilities.geojson"
     });
 
     // Add Boston bike lanes layer
@@ -53,4 +56,21 @@ map.on("load", () => {
         source: 'cambridge_route',
         paint: bikeLayerStyle  // Use the same style for consistency
     });
+
+    // Fetch and parse Bluebikes station data
+    let jsonData;
+    try {
+        const jsonurl = 'https://dsc106.com/labs/lab07/data/bluebikes-stations.json';
+        
+        // Await JSON fetch
+        const jsonData = await d3.json(jsonurl);
+        
+        console.log('Loaded JSON Data:', jsonData); // Log to verify structure
+        
+        // Access the stations array
+        let stations = jsonData.data.stations;
+        console.log('Stations Array:', stations);
+    } catch (error) {
+        console.error('Error loading JSON:', error); // Handle errors
+    }
 });
