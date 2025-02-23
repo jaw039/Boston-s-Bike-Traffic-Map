@@ -10,15 +10,27 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <!-- Mapbox GL JS CSS -->
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
-    <!-- JavaScript file loads correctly as an ES module -->
     <script src="map.js" type="module"></script>
 </head>
 
 <body>
+<header>
     <h1>🚴🏼‍♀️ Boston's Bike Traffic Map</h1>
-    <div id="map">
-        <svg></svg>
+    <div class="time-filter">
+        <label for="time-slider">Filter by time:</label>
+        <input id="time-slider" type="range" min="-1" max="1440" value="-1">
+        <time id="time-display">(any time)</time>
+        <em id="any-time">(any time)</em>
     </div>
+</header>
+<div id="map">
+    <svg></svg>
+</div>
+<div id="legend" class="legend">
+  <div style="--departure-ratio: 1">More departures</div>
+  <div style="--departure-ratio: 0.5">Balanced</div>
+  <div style="--departure-ratio: 0">More arrivals</div>
+</div>
 </body>
 
 </html>
